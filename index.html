@@ -190,6 +190,14 @@ padding:2px 18px;margin:.8em 0}
 <li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/quickstart/">How do you call the Gemini 3.5 Flash Lite API?</a><span>Setup steps and copy-pasteable code</span></li>
 <li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/compare/">Gemini 3.5 Flash Lite: direct API or gateway?</a><span>Point-by-point, including the limitations</span></li>
 <li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/faq/">Gemini 3.5 Flash Lite API — frequently asked questions</a><span>What people actually ask when integrating</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-flash-lite-buy/">Where to Purchase Gemini 3.5 Flash Lite API and What It Costs</a><span>Purchase and billing details</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-payment-methods/">Can You Fund Gemini 3.5 Flash Lite Without an International Card?</a><span>Payment methods and funding</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/api-relay-explained/">API Relays Explained: What Sits Between Your App and Gemini 3.5 Flash Lite?</a><span>API relay basics</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/claude-code-relay-setup/">How should Claude Code be configured for Gemini 3.5 Flash Lite?</a><span>Claude Code relay setup limits</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-flash-lite-cost/">Is Gemini 3.5 Flash Lite a cost-effective API choice in 2026?</a><span>Compare token costs</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-api-ban-risk/">Will using Gemini 3.5 Flash Lite through a relay risk an account ban?</a><span>Account and relay risk</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-flash-lite-free-tier/">Can You Try Gemini 3.5 Flash Lite API for Free?</a><span>Free-credit status and limits</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/organization-disabled-troubleshooting/">How to investigate “api error 400 this organization has been disabled”</a><span>Debug disabled organization errors</span></li>
 </ul>
 </div>
 <div>
@@ -204,7 +212,6 @@ padding:2px 18px;margin:.8em 0}
 (function(){
   try{
     var EP='https://tk.openlux.ai/collect',S='gemini-3-5-flash-lite-api-en',L='en-US',V=1;
-    // 会话内唯一，仅存在于内存：刷新即变，不落 cookie 也不落 storage
     var sid=Math.random().toString(36).slice(2)+Date.now().toString(36);
     function send(type,extra){
       try{
@@ -219,12 +226,10 @@ padding:2px 18px;margin:.8em 0}
         if(navigator.sendBeacon){
           navigator.sendBeacon(EP,new Blob([body],{type:'text/plain;charset=UTF-8'}));
         }else{
-          // 老浏览器兜底。keepalive 让请求在页面卸载后仍能发完
           fetch(EP,{method:'POST',body:body,keepalive:true,mode:'no-cors'});
         }
       }catch(e){}
     }
-    // 预渲染的页面不算一次真实访问，等真正可见了再报
     if(document.visibilityState==='prerender'){
       document.addEventListener('visibilitychange',function h(){
         if(document.visibilityState!=='prerender'){
@@ -234,7 +239,6 @@ padding:2px 18px;margin:.8em 0}
     }else{
       send('view');
     }
-    // 出站点击：只记去向和位置，不记任何个人信息
     document.addEventListener('click',function(e){
       var a=e.target&&e.target.closest?e.target.closest('a[data-cta]'):null;
       if(!a)return;
