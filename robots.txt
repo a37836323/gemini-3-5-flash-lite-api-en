@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://a37836323.github.io/gemini-3-5-flash-lite-api-en/sitemap.xml
