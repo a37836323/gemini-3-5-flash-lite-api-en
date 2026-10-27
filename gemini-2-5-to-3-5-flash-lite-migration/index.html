@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gemini 2.5 Closed to New Projects: How to Switch to gemini-3.5-flash-lite (Thinking Level, Sampling Params, Prefill)</title>
+<meta name="description" content="Since 2026-09-18 Google limits Gemini 2.5 models to users who actively used them and points new projects to 3.5 Flash-Lite or 3.8 Flash. This page follows the official docs: minimal default thinking, higher levels for tool calls, removing temperature and candidate_count, prefilled model turns returning 400, and how to verify.">
+<meta name="keywords" content="Gemini 3.5 Flash Lite API proxy,Gemini 3.5 Flash Lite API,Gemini Flash Lite,Google Gemini API,multimodal model API,document parsing API,sub-agent model,API pricing">
+<link rel="canonical" href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-2-5-to-3-5-flash-lite-migration/">
+<link rel="alternate" hreflang="en-US" href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/">
+<link rel="alternate" hreflang="zh-CN" href="https://gemini-3-5-flash-lite-api.vercel.app/">
+<link rel="alternate" hreflang="x-default" href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Gemini 2.5 Closed to New Projects: How to Switch to gemini-3.5-flash-lite (Thinking Level, Sampling Params, Prefill)">
+<meta property="og:description" content="Since 2026-09-18 Google limits Gemini 2.5 models to users who actively used them and points new projects to 3.5 Flash-Lite or 3.8 Flash. This page follows the official docs: minimal default thinking, higher levels for tool calls, removing temperature and candidate_count, prefilled model turns returning 400, and how to verify.">
+<meta property="og:url" content="https://api.openlux.ai/">
+<meta property="og:site_name" content="OpenLux">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gemini 2.5 Closed to New Projects: How to Switch to gemini-3.5-flash-lite (Thinking Level, Sampling Params, Prefill)">
+<meta name="twitter:description" content="Since 2026-09-18 Google limits Gemini 2.5 models to users who actively used them and points new projects to 3.5 Flash-Lite or 3.8 Flash. This page follows the official docs: minimal default thinking, higher levels for tool calls, removing temperature and candidate_count, prefilled model turns returning 400, and how to verify.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://api.openlux.ai/#organization",
+      "name": "OpenLux",
+      "url": "https://api.openlux.ai",
+      "description": "Gemini 3.5 Flash Lite API proxy integration guide: supports text, image, video, audio, and PDF inputs, with benchmark pricing of $0.3 / 100 万 tokens for input and $2.5 / 100 万 tokens for output.",
+      "sameAs": [
+        "https://openlux.ai",
+        "https://doc.openlux.ai"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://a37836323.github.io/gemini-3-5-flash-lite-api-en/#website",
+      "url": "https://a37836323.github.io/gemini-3-5-flash-lite-api-en",
+      "name": "Gemini 3.5 Flash Lite API Proxy 2026: Pricing and Integration Guide",
+      "inLanguage": "en-US",
+      "publisher": {
+        "@id": "https://api.openlux.ai/#organization"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-2-5-to-3-5-flash-lite-migration/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OpenLux",
+          "item": "https://api.openlux.ai"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Gemini 3.5 Flash Lite API proxy",
+          "item": "https://a37836323.github.io/gemini-3-5-flash-lite-api-en/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Moving from Gemini 2.5 to gemini-3.5-flash-lite: What to Change and How to Verify It",
+          "item": "https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-2-5-to-3-5-flash-lite-migration/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://a37836323.github.io/gemini-3-5-flash-lite-api-en/#application",
+      "name": "OpenLux API",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "url": "https://api.openlux.ai",
+      "description": "Gemini 3.5 Flash Lite API proxy integration guide: supports text, image, video, audio, and PDF inputs, with benchmark pricing of $0.3 / 100 万 tokens for input and $2.5 / 100 万 tokens for output.",
+      "offers": {
+        "@type": "Offer",
+        "price": "Pending hands-on testing",
+        "priceCurrency": "CNY",
+        "url": "https://api.openlux.ai",
+        "description": "Billing is based on token usage. The USD benchmark price is multiplied by the multiplier for the account's group to calculate the final price; CNY settlement details should be confirmed in the console."
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-2-5-to-3-5-flash-lite-migration/#article",
+      "headline": "Moving from Gemini 2.5 to gemini-3.5-flash-lite: What to Change and How to Verify It",
+      "datePublished": "2026-08-04",
+      "dateModified": "2026-10-27",
+      "inLanguage": "en-US",
+      "author": {
+        "@id": "https://api.openlux.ai/#organization"
+      },
+      "publisher": {
+        "@id": "https://api.openlux.ai/#organization"
+      },
+      "mainEntityOfPage": "https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-2-5-to-3-5-flash-lite-migration/"
+    }
+  ]
+}
+</script>
+<style>*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#ffffff;color:#1e1b18;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+line-height:1.75;font-size:16px;-webkit-font-smoothing:antialiased;
+text-rendering:optimizeLegibility}
+.card-body41{max-width:860px;margin:0 auto;padding:32px 20px 64px}
+h1{font-size:1.85rem;line-height:1.4;margin:.2em 0 .6em;letter-spacing:-.01em}
+h2{font-size:1.3rem;margin:2.2em 0 .7em;padding-bottom:.35em;
+border-bottom:2px solid #c7d2fe}
+h3{font-size:1.08rem;margin:1.6em 0 .5em}
+a{color:#4338ca;text-decoration:none}
+a:hover,a:focus-visible{text-decoration:underline}
+code{background:#eef2ff;padding:.15em .4em;border-radius:2px;
+font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre{background:#eef2ff;border:1px solid #c7d2fe;border-radius:6px;
+padding:16px;overflow-x:auto;font-size:.86rem;line-height:1.6}
+pre code{background:none;padding:0}
+table{width:100%;border-collapse:collapse;margin:1.2em 0;font-size:.94rem}
+th,td{border:1px solid #c7d2fe;padding:10px 12px;text-align:left}
+th{background:#eef2ff;font-weight:600}
+ul,ol{padding-left:1.5em}
+ul{list-style-type:disc}
+li{margin:.4em 0}
+.bar-slot18{background:#eef2ff;border-left:3px solid #4338ca;
+border-radius:0 6px 6px 0;padding:14px 18px;margin:1.4em 0}
+.stack-grid24{display:inline-block;background:#4338ca;color:#fff;
+padding:12px 26px;border-radius:6px;font-weight:600;margin:.6em 0}
+.stack-grid24:hover{opacity:.88;text-decoration:none}
+.box-box86{color:#71717a;font-size:.86rem;margin-top:3em;
+padding-top:1.2em;border-top:1px solid #c7d2fe}
+.head-zone82{border:1px solid #c7d2fe;border-radius:6px;
+padding:2px 18px;margin:.8em 0}
+.slot-area25{overflow-x:auto}
+@media(max-width:600px){
+  body{font-size:15px}
+  h1{font-size:1.5rem}
+  h2{font-size:1.18rem}
+  .card-body41{padding:20px 16px 48px}
+  table{font-size:.85rem}
+  th,td{padding:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}</style>
+</head>
+<body>
+<main class="card-body41">
+<p data-notice="price-20261025" style="margin:0 0 16px;padding:10px 14px;border:1px solid #f0c36d;background:#fff8e6;color:#5c4400;border-radius:6px;font-size:14px;line-height:1.6">Prices and model details on this page may have changed. For current rates, see the <a href="https://www.openlux.ai/pricing?utm_source=gemini-3-5-flash-lite-api-en&amp;utm_medium=satellite&amp;utm_campaign=price_notice" style="color:#0b57d0">OpenLux pricing page</a>.</p>
+<p class="zone-col12"><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/">Home</a> ／ Gemini 3.5 Flash Lite</p>
+<h1>Moving from Gemini 2.5 to gemini-3.5-flash-lite: What to Change and How to Verify It</h1>
+<p>Google&#x27;s Gemini API changelog entry for 2026-09-18 says access to the 2.5 models is now limited to users who have actively used them in the past. The models are not deprecated and will continue to be served until further notice, but new projects should use 3.5 Flash-Lite or 3.8 Flash. If a new project was going to use gemini-2.5-flash or gemini-2.5-flash-lite, or you want to move an existing project at the same time, switching to gemini-3.5-flash-lite means handling at least four things: thinking is on by default at the minimal level, tool calls and multi-step tasks need a higher level, sampling parameters such as temperature and candidate_count should be removed, and a request must not end with a prefilled model turn. Each item below follows Google&#x27;s documentation and ends with a way to verify it.</p>
+
+<div>
+<h2>What Google changed: 2.5 access is limited, new projects use 3.5 Flash-Lite</h2>
+<p>The source is the Gemini API changelog (https://ai.google.dev/gemini-api/docs/changelog), entry dated September 18, 2026: to protect capacity for existing workflows and new applications, access to the 2.5 models is limited to users who have actively used them in the past. These models are not deprecated and will continue to be served through the API until further notice. For any new projects, Google says to use its latest models, 3.5 Flash-Lite or 3.8 Flash.</p>
+<p>The entry does not say which error a restricted account sees when it calls a 2.5 model, and this page does not guess at the error text. The practical effect is that a newly created Google project should not pick a 2.5 model; it should choose between 3.5 Flash-Lite and 3.8 Flash.</p>
+<p>gemini-3.5-flash-lite became generally available on July 21, 2026, together with gemini-3.6-flash. The changelog describes it as a low-latency, highly cost-effective subagent option designed for high-volume automation. Google&#x27;s page &quot;What&#x27;s new in Gemini 3.6 Flash and 3.5 Flash-Lite&quot; (https://ai.google.dev/gemini-api/docs/whats-new-gemini-3.6) lists the recommended migration path to it as Gemini 3.1 Flash-Lite or Gemini 2.5 Flash, and calls it a strong migration path from Gemini 2.5 Flash. That page does not name 2.5 Flash-Lite separately, so if you are coming from 2.5 Flash-Lite, go through the parameter differences below one by one.</p>
+<h2>First check that gemini-3.5-flash-lite can handle your workload</h2>
+<p>The official model page (https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite) lists text, image, video, audio and PDF as inputs and text as the only output, with an input limit of 1,048,576 tokens and an output limit of 65,536 tokens.</p>
+<p>Supported capabilities on that page are caching, code execution, file search, function calling, grounding with Google Maps, Search grounding, structured outputs, thinking and URL context; computer use is supported in preview. Audio generation, image generation and the Live API are not supported. Batch API, Flex inference and Priority inference are all supported.</p>
+<p>So if you used a 2.5 model for real-time voice through the Live API, or to generate images or audio directly, you cannot simply swap the model name to gemini-3.5-flash-lite; you need a different model. If you only do text, document parsing, extraction, classification and tool calls, follow the sections below. Google positions the model for subagent tasks, document parsing, high-volume agentic workflows, simple data extraction, and applications where latency and API cost are the primary constraints.</p>
+<h2>Thinking level: minimal by default, raise it for tool calls</h2>
+<p>This is the clearest difference from 2.5 Flash-Lite. In the model table on Google&#x27;s thinking page (https://ai.google.dev/gemini-api/docs/thinking), gemini-2.5-flash-lite has thinking off by default, while gemini-3.5-flash-lite has it on at the minimal level, with minimal, low, medium and high as the supported levels; the table does not list an off option. The same page says a thought signature is always present, even when the model performs only minimal reasoning.</p>
+<p>The migration checklist asks you to replace thinking_budget with thinking_level instead of setting a token budget. The examples on the thinking page set thinking_level inside generation_config. If you use a different request format, check the field name in the official API reference for that format.</p>
+<p>For choosing a level, the checklist says to keep minimal (the default) for high-volume extraction, routing or classification, and to use medium or high for autonomous subagents with tool calls, code execution or multi-step reasoning, to prevent premature tool termination. Elsewhere the same page advises increasing the thinking level for autonomous planning and complex subagent tasks, and experimenting with both minimal and high for documents, depending on document complexity.</p>
+<p>So if code that ran function calls on 2.5 Flash-Lite without thinking now stops before the tool chain finishes, follow Google&#x27;s advice: raise thinking_level to medium or high and test again.</p>
+<h2>Parameters to remove: temperature, top_p, top_k and candidate_count</h2>
+<p>The &quot;Sampling parameter deprecation&quot; section of the what&#x27;s-new page says temperature, top_p and top_k are deprecated and ignored, and that in future model generations supplying them returns an HTTP 400 error. Google&#x27;s instruction is to remove these parameters from all requests.</p>
+<p>In other words, after switching to gemini-3.5-flash-lite these parameters do not cause an error yet, but they no longer have any effect. If you relied on temperature 0 for stable output, Google suggests defining a system instruction with explicit rules for your use case instead.</p>
+<p>The checklist marks candidate_count as unsupported in Gemini 3 and later, so code that asks for several candidates in one response needs to change. The page does not say which error is returned if candidate_count is sent.</p>
+<h2>A prefilled model turn returns 400</h2>
+<p>The &quot;Prefilled model turn validation&quot; section says prefilling model turns is no longer supported: if the last non-empty turn in the request is a model turn, the API returns a 400 error. In the 2.5 era some code placed a model-role message at the end of contents to make the model continue from a fixed opening or a JSON prefix. That pattern is rejected on gemini-3.5-flash-lite.</p>
+<p>Google&#x27;s replacement is to use system_instruction or structured outputs (https://ai.google.dev/gemini-api/docs/structured-output) if you used prefilling to suppress preambles or force JSON. After the change, make sure the last non-empty turn in contents is a user turn or a function result.</p>
+<p>The Flash-Lite checklist also says to apply the same function calling rules as 3.6 Flash. If you see Malformed_Function_Call errors tied to pre-tool text, the function calling guide has a dedicated section (https://ai.google.dev/gemini-api/docs/function-calling#workarounds-for-pre-tool-text-requirements).</p>
+<h2>Multi-turn and tool calls: send thought signatures back unchanged</h2>
+<p>Thought signatures are a baseline requirement for Gemini 3.x, and the checklist points to them. The thinking page says that in stateless mode you must always resend all thought blocks exactly as they were received, and must not remove or modify them in the history. When switching models within a session you should still resend the previous model&#x27;s thought blocks. Built-in tools such as Google Search can carry their own signatures, and in stateless mode those tool result signatures must also be resent in later turns.</p>
+<p>In the generateContent API reference (https://ai.google.dev/api/generate-content), Part.thoughtSignature is described as an opaque signature for the thought so it can be reused in subsequent requests, and FinishReason includes MISSING_THOUGHT_SIGNATURE, meaning the request has at least one thought signature missing. If your code rebuilds the conversation history itself, check during migration that the parts carrying signatures are kept.</p>
+<h2>How to verify the migration</h2>
+<p>Step 1: confirm the model name is now gemini-3.5-flash-lite and that it appears in the model list (through OpenLux, call /v1/models).</p>
+<p>Step 2: send a minimal request in which the last non-empty turn is a user turn, with no temperature, top_p, top_k or candidate_count, and with thinking_level as the only thinking parameter. A normal text response means the request structure is fine.</p>
+<p>Step 3: confirm the thinking level takes effect. In the generateContent response, usageMetadata.thoughtsTokenCount is the number of thinking tokens (the Interactions API used in Google&#x27;s thinking examples reports total_thought_tokens instead). Run the same prompt once with minimal and once with high and compare the counts.</p>
+<p>Step 4: run regression tests on your real samples. For extraction and classification, check that the output still meets your existing parsing rules. For tool calling, run a full multi-turn exchange and confirm the tool chain completes and finishReason never shows MISSING_THOUGHT_SIGNATURE; if needed, raise the level and compare again.</p>
+<h2>Notes for calling through the OpenLux relay</h2>
+<p>Google&#x27;s 2.5 access limit applies to projects on Google&#x27;s own API. The OpenLux pricing endpoint currently lists gemini-3.5-flash-lite for sale, and still lists gemini-2.5-flash and gemini-2.5-flash-lite; whether they stay available is shown by what /v1/models returns. Google also says 2.5 is only served until further notice, so for new code it is better to migrate to gemini-3.5-flash-lite with the checklist above.</p>
+<p>With the Gemini native format, the request path is /v1beta/models/gemini-3.5-flash-lite:generateContent; an OpenAI-compatible endpoint is also available. The Interactions API used in Google&#x27;s thinking examples is not among the verified relay endpoints, so do not assume it works.</p>
+<p>How thinking parameters are passed to the model through the OpenAI-compatible format has not been verified field by field on this page; confirm it with the minimal request and the thinking token count from the previous section. Create your key on the token page of the OpenLux console, and check the OpenLux pricing page for current prices.</p>
+<p>Still stuck? Full documentation and support are at <a href="https://api.openlux.ai/register?channel=c_lkv0gzwj" rel="nofollow noopener" data-cta="docs">OpenLux</a>.</p>
+</div>
+<div>
+<h2>More on this site</h2>
+<ul class="shell-block27">
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/quickstart/">How do you call the Gemini 3.5 Flash Lite API?</a><span>Setup steps and copy-pasteable code</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/compare/">Gemini 3.5 Flash Lite: direct API or gateway?</a><span>Point-by-point, including the limitations</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/faq/">Gemini 3.5 Flash Lite API — frequently asked questions</a><span>What people actually ask when integrating</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-flash-lite-buy/">Where to Purchase Gemini 3.5 Flash Lite API and What It Costs</a><span>Purchase and billing details</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-payment-methods/">Can You Fund Gemini 3.5 Flash Lite Without an International Card?</a><span>Payment methods and funding</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/api-relay-explained/">API Relays Explained: What Sits Between Your App and Gemini 3.5 Flash Lite?</a><span>API relay basics</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/claude-code-relay-setup/">How should Claude Code be configured for Gemini 3.5 Flash Lite?</a><span>Claude Code relay setup limits</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-flash-lite-cost/">Is Gemini 3.5 Flash Lite a cost-effective API choice in 2026?</a><span>Compare token costs</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-api-ban-risk/">Will using Gemini 3.5 Flash Lite through a relay risk an account ban?</a><span>Account and relay risk</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/gemini-flash-lite-free-tier/">Can You Try Gemini 3.5 Flash Lite API for Free?</a><span>Free-credit status and limits</span></li>
+<li><a href="https://a37836323.github.io/gemini-3-5-flash-lite-api-en/organization-disabled-troubleshooting/">How to investigate “api error 400 this organization has been disabled”</a><span>Debug disabled organization errors</span></li>
+</ul>
+</div>
+<div>
+<h2>Get started</h2>
+<p>Confirm the account group and integration documentation first, then validate Gemini 3.5 Flash Lite with a small request</p>
+<p><a class="stack-grid24" href="https://api.openlux.ai/register?channel=c_lkv0gzwj" rel="nofollow noopener" data-cta="register-bottom">Start with free credits</a></p>
+<p>Official site: <a href="https://api.openlux.ai/register?channel=c_lkv0gzwj" rel="nofollow noopener" data-cta="link">OpenLux official site</a></p>
+</div>
+<p class="box-box86">Last updated 2026-10-27　|　Written and maintained by OpenLux.<br>Latency and pricing figures come from our own measurements. Where they differ from the vendor's site, the vendor's live page wins.</p>
+</main>
+<script>
+(function(){
+  try{
+    var EP='https://tk.openlux.ai/collect',S='gemini-3-5-flash-lite-api-en',L='en-US',V=1;
+    var sid=Math.random().toString(36).slice(2)+Date.now().toString(36);
+    function send(type,extra){
+      try{
+        var p={v:V,t:type,s:S,l:L,sid:sid,
+               r:document.referrer||'',
+               p:location.pathname||'/',
+               q:location.search||'',
+               sw:screen.width||0,
+               tz:(Intl.DateTimeFormat().resolvedOptions()||{}).timeZone||''};
+        for(var k in extra){p[k]=extra[k];}
+        var body=JSON.stringify(p);
+        if(navigator.sendBeacon){
+          navigator.sendBeacon(EP,new Blob([body],{type:'text/plain;charset=UTF-8'}));
+        }else{
+          fetch(EP,{method:'POST',body:body,keepalive:true,mode:'no-cors'});
+        }
+      }catch(e){}
+    }
+    if(document.visibilityState==='prerender'){
+      document.addEventListener('visibilitychange',function h(){
+        if(document.visibilityState!=='prerender'){
+          document.removeEventListener('visibilitychange',h);send('view');
+        }
+      });
+    }else{
+      send('view');
+    }
+    document.addEventListener('click',function(e){
+      var a=e.target&&e.target.closest?e.target.closest('a[data-cta]'):null;
+      if(!a)return;
+      send('click',{c:a.getAttribute('data-cta')||'',h:a.href||''});
+    },{capture:true,passive:true});
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
